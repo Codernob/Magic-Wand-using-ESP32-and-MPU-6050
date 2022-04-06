@@ -1,7 +1,7 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
-#define FREQUENCY_HZ        100
+#define FREQUENCY_HZ        100 // test data was collected at 100 Hz frequency in the edge impulse studio
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
 // objeto da classe Adafruit_MPU6050
 Adafruit_MPU6050 mpu;
