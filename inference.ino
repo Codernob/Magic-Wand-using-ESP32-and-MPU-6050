@@ -1,9 +1,9 @@
 #include <Adafruit_MPU6050.h>
 #include <Adafruit_Sensor.h>
 #include <Wire.h>
-#include <codernob-project-1_inferencing.h>
+#include <wand_inferencing.h>
 
-#define FREQUENCY_HZ        60
+#define FREQUENCY_HZ        100
 #define INTERVAL_MS         (1000 / (FREQUENCY_HZ + 1))
 
 // objeto da classe Adafruit_MPU6050
@@ -17,15 +17,6 @@ static unsigned long last_interval_ms = 0;
 
 void setup() {
   Serial.begin(115200);
-
-  ledcSetup(0, 5000, 8);
-  /*
-    ledcAttachPin(RED, 0);
-    ledcAttachPin(GREEN, 1);
-    ledcAttachPin(BLUE, 2);
-  */
-
-
 
   if (!mpu.begin()) {
     Serial.println("Failed to find MPU6050 chip");
@@ -110,6 +101,7 @@ void loop() {
   if (millis() > last_interval_ms + INTERVAL_MS) {
     last_interval_ms = millis();
 
+    printf("collecting sensor data...\n");
     mpu.getEvent(&a, &g, &temp);
 
     features[feature_ix++] = a.acceleration.x;
@@ -135,32 +127,22 @@ void loop() {
                 result.timing.dsp, result.timing.classification);
       ei_printf(": \n");
 
+      char max_label;
+      float max_value=0.0;
       for (size_t ix = 0; ix < EI_CLASSIFIER_LABEL_COUNT; ix++) {
-        ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
-        if (result.classification[ix].value > 0.6) {
-          if (result.classification[ix].label == "wing")
-          {
-            /*// color code #00C9CC (R = 0,   G = 201, B = 204)
-              //analogWrite(RED, 0);
-              ledcWrite(0, 0);
-              //analogWrite(GREEN, 201);
-              ledcWrite(1, 201);
-              //analogWrite(BLUE, 204);
-              ledcWrite(2, 204);
-              Serial.println("up and down");*/
-            Serial.println("wing");
-          } else if (result.classification[ix].label == "ring")
-          {
-            Serial.println("ring");
-          } else if (result.classification[ix].label == "slope")
-          {
-            Serial.println("slope");
-          } else if (result.classification[ix].label == "idle")
-          {
-            Serial.println("idle");
-          }
+        //ei_printf("    %s: %.5f\n", result.classification[ix].label, result.classification[ix].value);
+        if(result.classification[ix].value>max_value) {
+          max_value = result.classification[ix].value;
+          max_label = result.classification[ix].label[0];
         }
       }
+
+      if(max_label=='E') ei_printf("Expeliarmus!\n");
+      else if(max_label=='L') ei_printf("Lumos!\n");
+      else ei_printf("Wand is idle\n");
+
+      delay(2000);
+      
       feature_ix = 0;
     }
 
