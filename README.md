@@ -16,6 +16,9 @@ the same project is implemented in Arduino BLE 33 Sense and Sparkfun Edge. But t
 ![image](https://user-images.githubusercontent.com/55651740/177569451-5807df98-b754-41d7-a88a-8da266119500.png)
 We have three classes to predict : Expelliarmus(E), Lumos(L) or Idle(I). Whichever class's probability is higher, that class is our prediction. Here, probability for I (0.85) is higher than probability of E(0.03) and L(0.11); so it predicts that the wand is idle(I).  <br> <br> <br>
 Wand used in this project: the Elder wand from Harry Potter! Collected from <a href="https://www.facebook.com/knockbd/">Knock</a>
+This project won us the position of Champion at the CSE Robo Expo 1.0 project showcase competition!
+![image](https://github.com/user-attachments/assets/5d5d7ffb-4220-4142-85c6-a1b68f776997)
+
 ![IMG_20220410_154803](https://github.com/user-attachments/assets/c1217b58-9123-41f0-b360-7cf8419979a5)
 ![image](https://user-images.githubusercontent.com/55651740/177569473-f9fab380-e210-4e2c-a49c-aebbef068d84.png)
 
